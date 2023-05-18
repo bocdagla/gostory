@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	cyoa "github.com/bocdagla/gostory"
+	"github.com/bocdagla/gostory/package/cyoa"
 )
 
 func main() {
@@ -18,12 +18,14 @@ func main() {
 
 	f, err := os.Open(*filename)
 	if err != nil {
-		panic(err)
+		log.Fatalf("could not open the file %s \n Error Description: \n %v", *filename, err)
+		return
 	}
 
 	story, err := cyoa.JsonStory(f)
 	if err != nil {
-		panic(err)
+		log.Fatalf("could not parse the file %s \n Error Description: \n %v", *filename, err)
+		return
 	}
 
 	h := cyoa.NewHandler(story)
